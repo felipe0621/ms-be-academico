@@ -1,10 +1,13 @@
 # esta parte se encarga de comunicarse con la base de datos
+#ORM para la base de datos MongoDB
 import pymongo
 import certifi
 from bson import DBRef
 from bson.objectid import ObjectId
 from typing import TypeVar, Generic, List, get_origin, get_args
 import json
+
+#comentario
 
 T = TypeVar('T')
 
