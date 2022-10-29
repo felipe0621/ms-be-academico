@@ -6,5 +6,3 @@ class AbstractModelo(metaclass=ABCMeta):
             setattr(self, llave, valor)
             
             
-            
-#otro comentario en el interface

@@ -23,6 +23,8 @@ class InterfaceRepositorio(Generic[T]):
     def loadFileConfig(self):
         with open('config.json') as f:
             data = json.load(f)
+        with open('secrets.json') as f:
+            data.update(f)     
         return data
 
     def save(self, item: T):
