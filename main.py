@@ -3,10 +3,15 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from waitress import serve
 import json
-import endpoints
+import Endpoints
+
 
 from Controladores.ControladorEstudiante import ControladorEstudiante
-
+from Controladores.ControladorDepartamento import ControladorDepartamento
+from Controladores.ControladorMateria import ControladorMateria
+miControladorEstudiante=ControladorEstudiante()
+miControladorDepartamento=ControladorDepartamento()
+miControladorMateria=ControladorMateria()
 
 app = Flask(__name__)
 
@@ -15,36 +20,24 @@ cors = CORS(app)
 
 
 #se importan las rutas de estudiante en el main
-#app.register_blueprint(endpoints.endpointEstudiante)
-
-controladorEstudiante = None
+app.register_blueprint(Endpoints.endpointEstudiante)
+app.register_blueprint(Endpoints.endpointDepartamento)
+app.register_blueprint(Endpoints.endpointMateria)
 
 def __loadFileConfig():
     with open('config.json') as f:
         data = json.load(f)
     return data
 
+#PARA PRUEBA
 @app.route("/",methods=['GET'])
 def test():
     json = {}
     json["message"]="Server running .Pruebas pipe.."
     return jsonify(json)
 
-@app.route("/estudiante",methods=['GET'])
-def index():
-    pass
-@app.route("/estudiante/<string:id>",methods=['GET'])
-def retrieve():
-    pass
-@app.route("/estudiante",methods=['POST'])
-def create():
-    pass
-@app.route("/estudiante/<string:id>",methods=['PUT'])
-def update():
-    pass
-@app.route("/estudiante/<string:id>",methods=['DELETE'])
-def delete():
-    pass
+
+
 
 if __name__=='__main__':
     dataConfig = __loadFileConfig()
@@ -57,6 +50,9 @@ if __name__=='__main__':
         from Repositorios.InterfaceRepositorio import InterfaceRepositorio
         repo = InterfaceRepositorio()
     else:
-        controladorEstudiante = ControladorEstudiante()
         serve(app,host=dataConfig["url-backend"],port=dataConfig["port"]) #production -grade WSGI server
       
+@app.route("/materias/<string:id>/departamento/<string:id_departamento>",methods=['PUT'])
+def asignarDepartamentoAMateria(id,id_departamento):
+    json=miControladorMateria.asignarDepartamento(id,id_departamento)
+    return jsonify(json)

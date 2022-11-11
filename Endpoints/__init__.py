@@ -1,0 +1,4 @@
+from .EndpointsEstudiante import endpointEstudiante
+from .EndpointsDepartamento import endpointDepartamento
+from .EndpointsMateria import endpointMateria
+from .EndpointsInscripcion import endpointInscripcion
